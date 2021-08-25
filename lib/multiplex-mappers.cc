@@ -438,6 +438,62 @@ protected:
 
   }
 };
+  
+class P10SingleColorHUB12Mapper : public MultiplexMapperBase {
+public:
+  P10SingleColorHUB12Mapper(const char *name)
+    : MultiplexMapperBase(name, 4){}
+
+  void MapSinglePanel(int x, int y, int *matrix_x, int *matrix_y) const {
+    if (y / 4 == 0) {
+      *matrix_y = y % 4;
+      if (x / 8 == 0) {
+        *matrix_x = x + 24;
+      } else if (x / 8 == 1) {
+        *matrix_x = x + 48;
+      } else if (x / 8 == 2) {
+        *matrix_x = x + 72;
+      } else if (x / 8 == 3) {
+        *matrix_x = x + 96;
+      }
+    } else if (y / 4 == 1) {
+      *matrix_y = y % 4;
+      if (x / 8 == 0) {
+        *matrix_x = x + 16;
+      } else if (x / 8 == 1) {
+        *matrix_x = x + 40;
+      } else if (x / 8 == 2) {
+        *matrix_x = x + 64;
+      } else if (x / 8 == 3) {
+        *matrix_x = x + 88;
+      }
+
+    } else if (y / 4 == 2) {
+      *matrix_y = y % 4;
+      if (x / 8 == 0) {
+        *matrix_x = x + 8;
+      } else if (x / 8 == 1) {
+        *matrix_x = x + 32;
+      } else if (x / 8 == 2) {
+        *matrix_x = x + 56;
+      } else if (x / 8 == 3) {
+        *matrix_x = x + 80;
+      }
+
+    } else if (y / 4 == 3) {
+      *matrix_y = y % 4;
+      if (x / 8 == 0) {
+        *matrix_x = x;
+      } else if (x / 8 == 1) {
+        *matrix_x = x + 24;
+      } else if (x / 8 == 2) {
+        *matrix_x = x + 48;
+      } else if (x / 8 == 3) {
+        *matrix_x = x + 72;
+      }
+    }
+  }
+  };
 
 /*
  * Here is where the registration happens.
@@ -465,6 +521,7 @@ static MuxMapperList *CreateMultiplexMapperList() {
   result->push_back(new P10CoremanMapper());
   result->push_back(new P8Outdoor1R1G1BMultiplexMapper());
   result->push_back(new FlippedStripeMultiplexMapper());
+  result->push_back(new P10SingleColorHUB12Mapper("P10SingleColor"));
   return result;
 }
 
